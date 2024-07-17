@@ -321,3 +321,11 @@ def subplotter(images, titles=None, fig_num=1, plot_width=5):
             plt.title(titles[i])
 
   
+def save_as_npy(rgb, xyz, label):
+    data = {}
+
+    data['rgb'] = rgb
+    data['xyz'] = xyz
+    data['label'] = label
+
+    return data
