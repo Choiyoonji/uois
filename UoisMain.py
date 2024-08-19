@@ -78,13 +78,13 @@ example_images_dir = os.path.abspath('.') + '/example_images/'
 OSD_image_files = sorted(glob.glob(example_images_dir + '/OSD_*.npy'))
 OCID_image_files = sorted(glob.glob(example_images_dir + '/OCID_*.npy'))
 test_image_files = sorted(glob.glob(example_images_dir + '/test_*.npy'))
-N = len(OSD_image_files) + len(OCID_image_files) + len(test_image_files)
+N = len(test_image_files)
 
 rgb_imgs = np.zeros((N, 480, 640, 3), dtype=np.float32)
 xyz_imgs = np.zeros((N, 480, 640, 3), dtype=np.float32)
 label_imgs = np.zeros((N, 480, 640), dtype=np.uint8)
 
-for i, img_file in enumerate(OSD_image_files + OCID_image_files + test_image_files):
+for i, img_file in enumerate(test_image_files):
     d = np.load(img_file, allow_pickle=True, encoding='bytes').item()
     
     # RGB
@@ -135,7 +135,7 @@ for i in range(N):
               f"Refined Masks. #objects: {np.unique(seg_masks[i,...]).shape[0]-1}",
               f"Ground Truth. #objects: {np.unique(label_imgs[i,...]).shape[0]-1}"
              ]
-    util_.subplotter(images, titles, fig_num=i+1)
+    # util_.subplotter(images, titles, fig_num=i+1)
     cv2.imwrite(f'SegMask_{i}.png', seg_mask_plot)
     # Run evaluation metric
     eval_metrics = evaluation.multilabel_metrics(seg_masks[i,...], label_imgs[i])
